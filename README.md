@@ -1,44 +1,43 @@
-# Inter Logistics
+# Inter Logistics bot
 
-Бот збирає заявки на вантажні перевезення, веде список пропозицій і пише їх у Google Таблицю.
+A Telegram bot that interviews a shipper step by step and posts a finished freight request into an operations chat, with a copy written to Google Sheets.
 
-**Стек.** Python, Telegram, Google Sheets.
+## Problem
 
-Публічний кейс. Робоча копія з паролями і базами лишається локально і сюди не входить.
+Freight requests arrived as unstructured messages: sometimes a city, sometimes a weight, rarely a truck type. Dispatchers were rewriting them into a sheet and into the working chat.
 
----
+## What was built
 
-# Inter Logistics Bot
+A guided funnel. The bot asks, in order:
 
-Telegram бот для збору заявок на вантажні перевезення.
+- Cargo
+- Country of origin
+- Country of destination
+- Truck type: tilt, refrigerator, container, open, car carrier, tank, or other
+- Volume
+- Weight
+- Number of trucks
+- Freight rate
+- Phone number
 
-## Встановлення
+When the last answer is in, the request is sent to the configured Telegram chat. `google_sheets.py` writes the same row to a sheet. `listings.py` and `locations.py` hold the catalogs the questions use. `scheduler.py` is the timed side of the same bot.
+
+## How it works
+
+Each answer is stored on the user until the funnel is complete. The truck type is a button, not free text, so the sheet stays consistent. The Google client uses a service account. That JSON key is not in this repository. Put your own key next to the bot and point `config.py` at it locally.
+
+## Stack
+
+Python, aiogram, Google Sheets.
+
+## Run locally
 
 ```bash
-pip install -r requirements.txt
-```
-
-## Запуск
-
-```bash
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt
 python bot.py
 ```
 
-## Функціонал
+## What this public copy leaves out
 
-Бот збирає наступні дані через покрокову воронку:
-- 📦 Товар
-- 🌍 Країна відправлення
-- 📍 Країна отримання
-- 🚛 Тип авто (Тент, Рефрижератор, Контейнер, Відкритий, Автовоз, Цистерна, Інше)
-- 📐 Об'єм
-- ⚖️ Вага
-- 🔢 Кількість авто
-- 💰 Ставка фрахту
-- 📱 Номер телефону для зв'язку
-
-Після заповнення всіх полів, заявка автоматично надсилається в зазначений Telegram чат.
-
-## Команди бота
-
-- `/start` - Головне меню
+`service_account.json`.
