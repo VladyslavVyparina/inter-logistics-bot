@@ -1,34 +1,34 @@
 import os
 
-BOT_TOKEN = "8638327471:AAGi0AHTIOnP825BvshDcmycCxmjZyJ9TEc"
+BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
 
-# Username бота без @
-BOT_USERNAME = "Inter_Logisticss_bot"
+# Bot username without @
+BOT_USERNAME = os.environ.get("BOT_USERNAME", "Inter_Logisticss_bot")
 
-# Чат менеджерів по вантажу (стара воронка)
-CHAT_ID = -1004405977967
+# Manager chat for freight requests (the original funnel)
+CHAT_ID = int(os.environ.get("CHAT_ID", "-1004405977967"))
 
-# Чат менеджерів по вільному транспорту (нова воронка)
-TRANSPORT_CHAT_ID = -1004365839600
+# Manager chat for free-transport listings (the later funnel)
+TRANSPORT_CHAT_ID = int(os.environ.get("TRANSPORT_CHAT_ID", "-1004365839600"))
 
-# Канал для вантажних пушів і карток «ВІЛЬНИЙ ТРАНСПОРТ» (кнопка «Додати вантаж»)
-CHANNEL_ID = -1002120477749
+# Channel for freight pushes and "free transport" cards (the Add cargo button)
+CHANNEL_ID = int(os.environ.get("CHANNEL_ID", "-1002120477749"))
 
-# Канал, де залишають заявки на авто (кнопка «Додати авто»). Картки сюди не публікуємо.
-TRANSPORT_CHANNEL_ID = -1002031991424
+# Channel where vehicle requests are left (the Add vehicle button). Cards are not posted here.
+TRANSPORT_CHANNEL_ID = int(os.environ.get("TRANSPORT_CHANNEL_ID", "-1002031991424"))
 
-# Другий канал для того самого транспортного пуша (ретранслятор його не копіює).
-TRANSPORT_PUSH_EXTRA_CHAT_ID = -1004349240981
+# Second channel for the same transport push. The relay does not copy it.
+TRANSPORT_PUSH_EXTRA_CHAT_ID = int(os.environ.get("TRANSPORT_PUSH_EXTRA_CHAT_ID", "-1004349240981"))
 
-# Групи, звідки ловимо вільний транспорт.
-# Порожній список = усі групи, куди додано бота (крім чату менеджерів і каналу).
+# Groups the bot watches for free transport.
+# An empty list means every group the bot is in, except the manager chat and the channel.
 SOURCE_GROUP_IDS = []
 
-# Картки вільного транспорту з кнопкою «Додати вантаж» — лише сюди.
-REPOST_GROUP_IDS = [-1002120477749]
+# Free-transport cards with the Add cargo button go only here.
+REPOST_GROUP_IDS = [CHANNEL_ID]
 
-# Google Sheets — та сама таблиця
-GOOGLE_SHEET_ID = "1Z_H5i_Fore1IuVz2lR49NDe7A-dVpiORtwtyfKvN1J8"
+# Google Sheets — the same spreadsheet as the working copy
+GOOGLE_SHEET_ID = os.environ.get("GOOGLE_SHEET_ID", "")
 GOOGLE_SHEET_RANGE = "B:H"
 
 LISTINGS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "listings.json")
